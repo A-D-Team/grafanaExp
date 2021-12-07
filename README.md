@@ -1,6 +1,6 @@
 # grafanaExp
 
-利用grafan CVE-2021-43798任意文件读漏洞，自动探测是否有漏洞、存在的plugin、提取密钥、解密server端db文件，并输出`data_sourrce`信息。
+利用grafana CVE-2021-43798任意文件读漏洞，自动探测是否有漏洞、存在的plugin、提取密钥、解密server端db文件，并输出`data_sourrce`信息。
 
 ## 使用方法
 提供exp和decode功能。
