@@ -50,9 +50,11 @@ GLOBAL OPTIONS:
 ```
 
 ## 更新
+```
 1、支持https （昨天没加因为 transport会有一些奇奇怪怪的问题
 2、增加darwin的执行文件
 3、增加绕过nginx的paylaod （裸改了一下net/http
+```
 
 ## 申明
 
