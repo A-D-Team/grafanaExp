@@ -49,6 +49,11 @@ GLOBAL OPTIONS:
 2021/12/07 23:00:20 type:[postgres]     name:[Postgre_01]               url:[Postgre_01:5432]   user:[pppp]     password[sssswwwww]     database:[postgredb]    basic_auth_user:[]      basic_auth_password:[]
 ```
 
+## 更新
+1、支持https （昨天没加因为 transport会有一些奇奇怪怪的问题
+2、增加darwin的执行文件
+3、增加绕过nginx的paylaod （裸改了一下net/http
+
 ## 申明
 
 本程序应仅用于授权的安全测试与研究目的
