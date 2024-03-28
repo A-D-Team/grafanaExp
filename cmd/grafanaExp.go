@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/urfave/cli/v2"
+	"grafanaExp/internal"
 	"log"
 	"os"
 	"path/filepath"
-	"penTools/grafanaExp/internal"
 )
 
 func analysis() {
