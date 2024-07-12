@@ -2,7 +2,6 @@ package internal
 
 import (
 	"crypto/tls"
-	_ "github.com/mattn/go-sqlite3"
 	"grafanaExp/pkg/http"
 	"io/ioutil"
 )

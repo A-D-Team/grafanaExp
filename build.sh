@@ -1,7 +1,7 @@
 export GOPROXY=direct
 
-sudo apt-get update
-sudo apt-get install gcc-mingw-w64-i686 gcc-multilib
+#sudo apt-get update
+#sudo apt-get install gcc-mingw-w64-i686 gcc-multilib
 
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-s -w -extldflags -static' -o ./linux_amd64_grafanaExp ./cmd
 tar -czvf linux_amd64_grafanaExp.tar.gz linux_amd64_grafanaExp

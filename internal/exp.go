@@ -1,12 +1,13 @@
 package internal
 
 import (
-	"database/sql"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/glebarez/sqlite"
 	_ "github.com/glebarez/sqlite"
 	"github.com/grafana/grafana/pkg/util"
+	"gorm.io/gorm"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -43,7 +44,7 @@ func getAllDatasource() {
 	//println(_url)
 	if strings.HasPrefix(_buf, "SQLite format 3") {
 		var tmpDB *os.File
-		var db *sql.DB
+		var pdb *gorm.DB
 		var err error
 		if OutFile != "" {
 			dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
@@ -53,7 +54,8 @@ func getAllDatasource() {
 			if err != nil {
 				panic(err)
 			}
-			db, err = sql.Open("sqlite3", OutFile)
+			//db, err = sql.Open("sqlite3", OutFile)
+			pdb, err = gorm.Open(sqlite.Open(OutFile), &gorm.Config{})
 			if err != nil {
 				panic(err)
 			}
@@ -82,12 +84,18 @@ func getAllDatasource() {
 				panic(err)
 			}
 			// Open DB.
-			db, err = sql.Open("sqlite3", tmpDB.Name())
+			pdb, err = gorm.Open(sqlite.Open(tmpDB.Name()), &gorm.Config{})
+			//db, err = sql.Open("sqlite3", tmpDB.Name())
 			if err != nil {
 				panic(err)
 			}
 		}
 		//Logger.Debug("Test")
+		db, dberr := pdb.DB()
+		if dberr != nil {
+			panic(err)
+		}
+
 		cntR, err := db.Query("SELECT count(1) FROM data_source")
 		if err != nil {
 			panic(err)
