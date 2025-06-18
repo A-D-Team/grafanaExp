@@ -96,13 +96,12 @@ func getAllDatasource() {
 			panic(err)
 		}
 
-		cntR, err := db.Query("SELECT count(1) FROM data_source")
+		var cnt int
+		err = db.QueryRow("SELECT COUNT(1) FROM data_source").Scan(&cnt)
 		if err != nil {
-			panic(err)
+			panic(fmt.Errorf("failed to count records: %w", err))
 		}
-		var cnt int16
-		cntR.Scan(&cnt)
-		Logger.Criticalf("There is [%d] records in db.", cnt)
+		Logger.Criticalf("There are [%d] records in data_source table.", cnt)
 
 		rows, err := db.Query("SELECT `type`, `name`, access, url, password, `user`, database, basic_auth_user, basic_auth_password, secure_json_data FROM data_source")
 		for rows.Next() {
@@ -129,7 +128,10 @@ func getAllDatasource() {
 			//println(json_data)
 			//log.Println(_json)
 			_pass := decode(Key, _json.Password)
-			_authpass := decode(Key, _json.BasicPassword)
+			_authpass := ""
+			if _json.BasicPassword != "" {
+				_authpass = decode(Key, _json.BasicPassword)
+			}
 			Logger.Criticalf("type:[%s]\tname:[%s]\t\turl:[%s]\tuser:[%s]\tpassword[%s]\tdatabase:[%s]\tbasic_auth_user:[%s]\tbasic_auth_password:[%s]", stype, sname, surl, suser, _pass, sdatabase, sbuser, _authpass)
 		}
 	} else {
