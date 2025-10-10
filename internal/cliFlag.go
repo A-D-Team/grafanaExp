@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"database/sql"
-	"encoding/json"
 	"github.com/urfave/cli/v2"
 	"os"
 	"strings"
@@ -71,40 +69,8 @@ func CliParse(ctx *cli.Context) {
 
 func DecodetFunc(ctx *cli.Context) (err error) {
 	CliParse(ctx)
-
-	db, err := sql.Open("sqlite3", LDBFile)
-	if err != nil {
-		panic(err)
-	}
-
-	//Logger.Debug("Test")
-	rows, err := db.Query("SELECT `type`, `name`, access, url, password, `user`, database, basic_auth_user, basic_auth_password, secure_json_data FROM data_source")
-	for rows.Next() {
-		var stype string
-		var sname string
-		var saccess string
-		var surl string
-		var spassword string
-		var suser string
-		var sdatabase string
-		var sbuser string
-		var json_data string
-		var sbpass string
-		err = rows.Scan(&stype, &sname, &saccess, &surl, &spassword, &suser, &sdatabase, &sbuser, &sbpass, &json_data)
-		if err != nil {
-			panic(err)
-		}
-
-		var _json SecureData
-		err := json.Unmarshal([]byte(json_data), &_json)
-		if err != nil {
-			panic(err)
-		}
-
-		_pass := decode(Key, _json.Password)
-		_authpass := decode(Key, _json.BasicPassword)
-		Logger.Criticalf("type:[%s]\tname:[%s]\t\turl:[%s]\tuser:[%s]\tpassword[%s]\tdatabase:[%s]\tbasic_auth_user:[%s]\tbasic_auth_password:[%s]", stype, sname, surl, suser, _pass, sdatabase, sbuser, _authpass)
-	}
+	// Open DB.
+	printDBInfo(LDBFile)
 	return nil
 }
 
